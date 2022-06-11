@@ -35,7 +35,7 @@ public class MenuHandler : MonoBehaviour
 
     public void ExitGame()
     {
-        EditorApplication.ExitPlaymode();
+        Application.Quit();
     }
 
     public void TakePlayerName()   // take input to name...
