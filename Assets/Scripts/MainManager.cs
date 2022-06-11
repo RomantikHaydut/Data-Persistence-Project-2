@@ -24,6 +24,7 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ScoreText.text = $"Score : {m_Points}" + " From : " + GameManager.name;
         BestScoreText = GameObject.Find("Best Score Text").GetComponent<Text>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         const float step = 0.6f;
@@ -76,7 +77,7 @@ public class MainManager : MonoBehaviour
     void AddPoint(int point)
     {
         m_Points += point;
-        ScoreText.text = $"Score : {m_Points}";
+        ScoreText.text = $"Score : {m_Points}"+" From : "+GameManager.name;
         
     }
 
