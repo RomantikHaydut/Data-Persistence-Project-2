@@ -14,7 +14,7 @@ public class Ball : MonoBehaviour
     
     private void OnCollisionExit(Collision other)
     {
-        var velocity = m_Rigidbody.velocity;
+        var velocity = m_Rigidbody.velocity; // var velocity...
         
         //after a collision we accelerate a bit
         velocity += velocity.normalized * 0.01f;
@@ -23,6 +23,7 @@ public class Ball : MonoBehaviour
         if (Vector3.Dot(velocity.normalized, Vector3.up) < 0.1f)
         {
             velocity += velocity.y > 0 ? Vector3.up * 0.5f : Vector3.down * 0.5f;
+            
         }
 
         //max velocity

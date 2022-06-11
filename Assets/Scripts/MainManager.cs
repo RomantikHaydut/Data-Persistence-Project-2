@@ -11,7 +11,9 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
+    public GameManager gameManager;
     
     private bool m_Started = false;
     private int m_Points;
@@ -22,6 +24,8 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BestScoreText = GameObject.Find("Best Score Text").GetComponent<Text>();
+        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -36,6 +40,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+
+        BestScoreText.text= "Best Score is : " + GameManager.bestScore + " From : " + GameManager.bestScoreOwner;
     }
 
     private void Update()
@@ -57,19 +63,34 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+               SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+            else if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                SceneManager.LoadScene(0);
             }
         }
+
     }
 
     void AddPoint(int point)
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        
     }
 
     public void GameOver()
     {
+        if (m_Points > GameManager.bestScore)
+        {
+            GameManager.bestScore = m_Points;
+            GameManager.bestScoreOwner = GameManager.name;
+            GameManager.gameManager.SaveName(GameManager.bestScoreOwner, GameManager.bestScore);
+            GameManager.gameManager.LoadName();
+            BestScoreText.text= "Best Score is : '" + GameManager.bestScore + "' From: " + GameManager.bestScoreOwner;
+
+        }
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
